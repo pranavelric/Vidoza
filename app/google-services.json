@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "639793140943",
+    "project_id": "vidoza-167cf",
+    "storage_bucket": "vidoza-167cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639793140943:android:0fc00243e0782806f613ba",
+        "android_client_info": {
+          "package_name": "com.social.vidoza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639793140943-tnr4097u78tgftnd2k51tvebfcg5mdj7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.social.vidoza",
+            "certificate_hash": "b8c68feacb36384a58cbe1ff8954de087d15580c"
+          }
+        },
+        {
+          "client_id": "639793140943-pho6oa3jgovmdl2om8r27nmfg79a2tpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtEfyKLn0vxfHBIu0WFusBAKem1cV2RMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639793140943-pho6oa3jgovmdl2om8r27nmfg79a2tpv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

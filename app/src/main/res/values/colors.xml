@@ -27,7 +27,18 @@
     <color name="green_transparent">#2800FF0B</color>
     <color name="green">#2DCA34</color>
     <color name="andar_blue">#0187C8</color>
+
     <color name="andar_blue_transparent">#310187C8</color>
+
+
+
+<!--    for theme -->
+
+    <color name="background_light">#ffffff</color>
+    <color name="background_dark">#040b14</color>
+    <color name="background">#ffffff</color>
+
+
 
 
 </resources>
