@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Vidoza</string>
+
+
+    <string name="login_username_hint">Username</string>
+
+    <string name="login_signup_hint">Don\'t have an account? Sign up.</string>
+    <string name="login_name_hint">Full Name</string>
+    <string name="login_mobile_number_hint">Phone number</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_hint">Alread have an account? Sign up</string>
+
+
+</resources>
