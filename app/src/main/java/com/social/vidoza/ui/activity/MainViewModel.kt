@@ -1,15 +1,17 @@
 package com.social.vidoza.ui.activity
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gaming.earningvalleyadmin.utils.ResponseState
 import com.social.vidoza.data.repository.MainActivityRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(private val mainRepository: MainActivityRepository) :
+@HiltViewModel
+class MainViewModel @Inject constructor(private val mainRepository: MainActivityRepository) :
     ViewModel() {
 
 

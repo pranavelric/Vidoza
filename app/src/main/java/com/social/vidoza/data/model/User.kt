@@ -1,7 +1,5 @@
 package com.social.vidoza.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import java.io.Serializable
 
 data class User(
@@ -10,6 +8,7 @@ data class User(
     val email: String?,
     val phoneNumber: String?,
     var imageUrl: String?,
+    var isNew:Boolean?=true
 
     ) : Serializable {
     constructor() : this("","","","",""){}

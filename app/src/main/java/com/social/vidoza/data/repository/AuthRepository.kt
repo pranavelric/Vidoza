@@ -14,10 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.social.vidoza.data.model.User
 import com.social.vidoza.utils.Constants.USERS
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthRepository {
+class AuthRepository @Inject constructor(){
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val rootRef: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -30,12 +31,14 @@ class AuthRepository {
             if (task.isSuccessful) {
                 val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
                 if (firebaseUser != null) {
+                    val isNewUser = task.result?.additionalUserInfo?.isNewUser
                     val uid = firebaseUser.uid
                     val name = firebaseUser.displayName
                     val email = firebaseUser.email
                     val phoneNumber = firebaseUser.phoneNumber
                     val profilePic = firebaseUser.photoUrl?.toString()
                     val user = User(uid = uid, name = name, email = email,phoneNumber = phoneNumber,profilePic)
+                    user.isNew = isNewUser
                     authenticatedUserMutableLiveData.value = ResponseState.Success(user)
                 }
             } else {
@@ -48,7 +51,7 @@ class AuthRepository {
         return authenticatedUserMutableLiveData
     }
 
- suspend  fun createUserInFireStoreIfNotExist(authenticatedUser: User): MutableLiveData<ResponseState<User>> {
+  fun createUserInFireStoreIfNotExist(authenticatedUser: User): MutableLiveData<ResponseState<User>> {
 
 
         val newUserMutableLiveData: MutableLiveData<ResponseState<User>> = MutableLiveData()
@@ -61,7 +64,7 @@ class AuthRepository {
 
              if (document != null) {
                  if (!document.exists()) {
-
+                     authenticatedUser.isNew = authenticatedUser.isNew
                      uidRef.set(authenticatedUser)
                          .addOnCompleteListener { userCreationTask ->
                              if (userCreationTask.isSuccessful) {
@@ -93,7 +96,7 @@ class AuthRepository {
                  )
              }
          }
-     }?.await()
+     }
 
         return newUserMutableLiveData
 
@@ -141,20 +144,15 @@ class AuthRepository {
         return isUserAuthenticatedLiveData
     }
 
+   suspend fun updateUserIsNew(id: User, b: Boolean) {
+        val file: MutableMap<String, Any> = HashMap()
+        file["new"] = false
 
+       id.uid?.let {
+           usersRef.document(it).update(file).addOnCompleteListener {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+           }.await()
+       }
+    }
 
 }

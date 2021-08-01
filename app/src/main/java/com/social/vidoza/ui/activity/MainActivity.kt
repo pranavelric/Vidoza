@@ -1,6 +1,7 @@
 package com.social.vidoza.ui.activity
 
 import android.os.Bundle
+import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -12,10 +13,7 @@ import com.social.vidoza.BuildConfig
 import com.social.vidoza.R
 import com.social.vidoza.databinding.ActivityMainBinding
 import com.social.vidoza.utils.*
-import com.thecode.aestheticdialogs.AestheticDialog
-import com.thecode.aestheticdialogs.DialogAnimation
-import com.thecode.aestheticdialogs.DialogStyle
-import com.thecode.aestheticdialogs.DialogType
+import com.thecode.aestheticdialogs.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -127,14 +125,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNetworkDialog() {
 
-        this@MainActivity.showCustomDialog(
-            "No internet",
-            "Please check your internet connection",
-            false,
-            DialogStyle.EMOTION,
-            DialogType.ERROR,
-            DialogAnimation.SHRINK
-        )
+
+     dialog =    AestheticDialog.Builder(this, DialogStyle.EMOTION,   DialogType.ERROR)
+            .setTitle("No internet")
+            .setMessage("Please check your internet connection")
+            .setCancelable(false)
+            .setDarkMode(false)
+            .setGravity(Gravity.CENTER)
+            .setAnimation( DialogAnimation.SHRINK)
+            .setOnClickListener(object : OnDialogClickListener {
+                override fun onClick(dialog: AestheticDialog.Builder) {
+                    dialog.dismiss()
+                }
+            })
+          dialog.show()
+
 
 
     }
