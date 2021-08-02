@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    android:layout_marginBottom="@dimen/_10sdp"
+android:padding="@dimen/_5sdp"
+    android:id="@+id/root_lay"
+
+    android:layout_marginEnd="1dp"
+    android:orientation="horizontal">
+
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_gravity="center|top"
+        android:src="@drawable/ic_baseline_person_24"
+        app:civ_border_color="@color/primary_color"
+        app:civ_border_width="@dimen/_1sdp"
+        app:civ_shadow="true"
+        android:tint="@color/primary_color"
+        app:civ_shadow_color="@color/primary_color"
+        app:civ_shadow_radius="2dp" />
+
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            tools:text="Unknown name"
+            android:textColor="@color/primary_color"
+            android:textStyle="bold"
+
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/user_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:textColor="@color/primary_color"
+            android:textSize="12sp"
+            android:paddingEnd="10dp"
+            android:text=""
+            tools:text="123456789"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:id="@+id/call"
+        android:src="@drawable/ic_baseline_call_24"
+        app:tint="@color/primary_color"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/_15sdp"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:id="@+id/video_call"
+        android:src="@drawable/ic_baseline_videocam_24"
+        app:tint="@color/primary_color"
+        android:layout_gravity="center"
+        />
+
+
+
+
+
+</LinearLayout>

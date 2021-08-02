@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.profile.ProfileFragment">
 
@@ -10,7 +11,7 @@
         android:id="@+id/timeContainer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_400sdp"
-        android:background="@color/white">
+        android:background="@color/background">
 
         <ImageView
             android:id="@+id/background"
@@ -43,6 +44,7 @@
                 app:civ_border_color="@color/primary_color"
                 app:civ_border_width="@dimen/_2sdp"
                 app:civ_shadow="true"
+                android:tint="@color/primary_color"
                 app:civ_shadow_color="@color/primary_color"
                 app:civ_shadow_radius="5dp" />
 
@@ -54,7 +56,7 @@
                 android:text="Name"
                 android:visibility="gone"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/heading_text"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold" />
 
@@ -83,7 +85,6 @@
             app:contentInsetStart="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="enterAlways"
-            app:menu="@menu/home_menu"
             app:title="Profile"
 
             >
@@ -95,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="@dimen/_5sdp"
-            android:background="@color/white_dark_non_transparent"
+            android:background="@color/background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
@@ -110,34 +111,34 @@
                     android:layout_height="wrap_content"
                     android:elevation="@dimen/_3sdp"
                     app:cardCornerRadius="@dimen/_5sdp"
+                    android:background="@color/primary_color_variant"
                     app:rippleColor="@color/primary_color">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/primary_color_variant"
                         android:padding="@dimen/_8sdp">
-
                         <TextView
                             android:id="@+id/name_title"
                             style="@style/headerText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Name"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primary_color"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
-
                         <TextView
                             android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_3sdp"
                             android:text="Name"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/name_title" />
+                            app:layout_constraintTop_toBottomOf="@id/name_title"
+                            />
 
                         <EditText
                             android:id="@+id/edit_name"
@@ -146,13 +147,12 @@
                             android:hint="Name"
                             android:imeOptions="actionDone"
                             android:inputType="text"
-                            android:textColor="@color/black"
+                            android:textColor="@color/text_color"
                             android:textSize="14sp"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/edit_name_close_btn"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/name_title" />
+                            app:layout_constraintStart_toStartOf="parent" />
 
                         <ImageView
                             android:id="@+id/edit_name_btn"
@@ -206,12 +206,15 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:elevation="@dimen/_3sdp"
                     app:cardCornerRadius="@dimen/_5sdp"
+                    android:background="@color/primary_color_variant"
                     app:rippleColor="@color/primary_color">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_8sdp">
+                        android:padding="@dimen/_8sdp"
+                        android:background="@color/primary_color_variant"
+                        >
 
                         <TextView
                             android:id="@+id/email_title"
@@ -219,7 +222,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Email"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primary_color"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -242,7 +245,7 @@
                             android:hint="Enter email"
                             android:imeOptions="actionDone"
                             android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
+                            android:textColor="@color/text_color"
                             android:textSize="14sp"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -310,7 +313,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_8sdp">
+                        android:padding="@dimen/_8sdp"
+                        android:background="@color/primary_color_variant"
+                        >
 
                         <TextView
                             android:id="@+id/phone_title"
@@ -318,7 +323,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Phone no"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primary_color"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -341,7 +346,7 @@
                             android:hint="phone"
                             android:imeOptions="actionDone"
                             android:inputType="phone"
-                            android:textColor="@color/black"
+                            android:textColor="@color/text_color"
                             android:textSize="14sp"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -422,7 +427,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:indeterminateTint="@color/black"
+        android:indeterminateTint="@color/primary_color"
         android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/_36sdp"
         android:elevation="@dimen/_16sdp"

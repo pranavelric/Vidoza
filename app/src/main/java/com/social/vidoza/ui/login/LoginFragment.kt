@@ -203,11 +203,9 @@ class LoginFragment : Fragment() {
                         putSerializable(USERS_BUNDLE_OBJ, userTask.data!!)
                     }
 
-                    if(userTask.data?.name.isNullOrBlank()){
-                        findNavController().navigate(R.id.action_loginFragment_to_profileFragment, bundle)
-                    }else{
+
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment, bundle)
-                    }
+
 
 
 

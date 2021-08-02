@@ -1,8 +1,12 @@
 package com.social.vidoza.ui.activity
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -40,7 +44,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var dialog: AestheticDialog.Builder
 
     lateinit var firebaseAuth: FirebaseAuth
-//    private val permList: Array<String> = arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+
+
+    private val permList: Array<String> = arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+    companion object {
+        private const val PERMISSION_CODE = 121
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +70,18 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
+
+        if (!checkForPermission(READ_EXTERNAL_STORAGE)) {
+            askPermission(permList)
+        }
+        if (!checkForPermission(WRITE_EXTERNAL_STORAGE)) {
+            askPermission(permList)
+        }
+
+
+
+
 
         if (networkHelper.isNetworkConnected() && this::firebaseAuth.isInitialized && firebaseAuth.currentUser != null)
             checkForUpdates()
@@ -143,6 +164,53 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
+    private fun checkForPermission(permission: String): Boolean {
+
+        return ActivityCompat.checkSelfPermission(
+            this@MainActivity,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (grantResults.isNotEmpty()) {
+            val bool = grantResults[0] == PackageManager.PERMISSION_GRANTED
+            onPermissionResult(bool)
+            val bool1 = grantResults[1] == PackageManager.PERMISSION_GRANTED
+            onPermissionResult(bool1)
+        }
+
+    }
+
+    private fun onPermissionResult(granted: Boolean) {
+        if (!granted) {
+            askPermission(permList)
+        }
+    }
+
+    private fun askPermission(permList: Array<String>) {
+        ActivityCompat.requestPermissions(this@MainActivity, permList, PERMISSION_CODE)
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -8,12 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primary_color">#040b14</color>
+    <color name="primary_color">#FFC100</color>
     <color name="yellow">#FFC100</color>
     <color name="yellow_trans">#23FFC100</color>
-    <color name="primary_color_variant">#11040B14</color>
+    <color name="primary_color_variant">#17987300</color>
     <color name="whiteTextColor">#FFFFFF</color>
-    <color name="primaryTextColor">#040b14</color>
+    <color name="primaryTextColor">#FFC100</color>
     <color name="white_transparent">#79FFFFFF</color>
     <color name="white_dark">#D0F3F3F3</color>
     <color name="white_dark_non_transparent">#F3F3F3</color>
@@ -36,31 +36,34 @@
 
     <color name="background_light">#ffffff</color>
     <color name="background_dark">#040b14</color>
-    <color name="background">#ffffff</color>
+    <color name="background">#040b14</color>
+
+
+
+
+
 
 
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true" >#081629</color>
 
-    <color name="heading_text">#040b14</color>
+    <color name="toggle_black">#FFFFFF</color>
+    <color name="toggle_gray">#595959</color>
 
-    <color name="toggle_black">#000000</color>
-    <color name="toggle_gray">#ACACAC</color>
+    <color name="heading_text">#F8D01F</color>
+
+    <color name="splash_bg">#040b14</color>
+    <color name="btn_colors">#1E88E5</color>
 
 
-    <color name="fab_color">#EAC16F</color>
+    <color name="fab_color">#F8D01F</color>
     <color name="fab_text_color">#EAC16F</color>
 
-    <color name="switch_checked">#EAC16F</color>
+    <color name="switch_checked">#F8D01F</color>
     <color name="switch_unchecked">#888888</color>
+    <color name="helper_icon_color">#FFFFFF</color>
 
-
-    <color name="helper_icon_color">#000000</color>
-
-
-
-    <color name="text_color">#000000</color>
-
+    <color name="text_color">#FFFFFF</color>
     <!-- amoled-->
     <color name="primary_color_amoled">#000000</color>
     <color name="primary_color_amoled_variant">#000000</color>
@@ -74,8 +77,17 @@
     <color name="switchTrackActive">#AA8F16</color>
     <color name="switchTrackNormal">#AA8F16</color>
 
-    <color name="splash_bg">#040b14</color>
-    <color name="btn_colors">#1E88E5</color>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

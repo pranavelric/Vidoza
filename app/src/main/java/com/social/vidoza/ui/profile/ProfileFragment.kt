@@ -1,27 +1,41 @@
 package com.social.vidoza.ui.profile
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.gaming.earningvalleyadmin.utils.ResponseState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.marcoscg.dialogsheet.DialogSheet
 import com.social.vidoza.R
 import com.social.vidoza.data.model.User
 import com.social.vidoza.databinding.ProfileFragmentBinding
 import com.social.vidoza.ui.activity.MainActivity
+import com.social.vidoza.utils.*
+import com.social.vidoza.utils.Constants.USERNAME
 import com.social.vidoza.utils.Constants.USERS_BUNDLE_OBJ
-import com.social.vidoza.utils.checkAboveKitkat
-import com.social.vidoza.utils.getStatusBarHeight
+import com.social.vidoza.utils.Constants.USER_EMAIL
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.engine.impl.GlideEngine
+import dmax.dialog.SpotsDialog
 
 class ProfileFragment : Fragment() {
 
@@ -53,18 +67,22 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         profileFragmentBinding = ProfileFragmentBinding.inflate(inflater, container, false)
-        profileFragmentBinding.toolbar.setOnMenuItemClickListener {
-            onOptionsItemSelected(it)
-        }
-        setHasOptionsMenu(true)
+//        profileFragmentBinding.toolbar.setOnMenuItemClickListener {
+//            onOptionsItemSelected(it)
+//        }
+//
+    //    setHasOptionsMenu(true)
         return profileFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+       profileFragmentBinding.background.getBackgroundImage(Uri.parse((activity as MainActivity).sharedPrefrences.getBrackgroundImage()))
+
+
         setData()
         setSlidingBehaviour()
-        setUIAccordingToLoginMethod()
         setClickListeners()
     }
 
@@ -74,15 +92,15 @@ class ProfileFragment : Fragment() {
 
     private fun setData() {
         setImageFromUrl(user?.imageUrl)
-        binding.name.text = user?.name
-        binding.username.text = user?.name
-        binding.phone.text = user?.phoneNumber
-        binding.email.text = user?.email
+        profileFragmentBinding.name.text = user?.name
+        profileFragmentBinding.username.text = user?.name
+        profileFragmentBinding.phone.text = user?.phoneNumber
+        profileFragmentBinding.email.text = user?.email
     }
 
     private fun setImageFromUrl(imageUrl: String?) {
 
-        binding.progressBar.visible()
+        profileFragmentBinding.progressBar.visible()
 
 
         Glide.with(this).load(imageUrl)
@@ -92,132 +110,90 @@ class ProfileFragment : Fragment() {
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?, model: Any?,
-                    target: Target<Drawable>?, isFirstResource: Boolean
+                    target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean
                 ): Boolean {
 
-                    binding.progressBar.gone()
+                    profileFragmentBinding.progressBar.gone()
                     return false
                 }
 
                 override fun onResourceReady(
                     resource: Drawable?, model: Any?,
-                    target: Target<Drawable>?,
+                    target: com.bumptech.glide.request.target.Target<Drawable>?,
                     dataSource: DataSource?, isFirstResource: Boolean
                 ): Boolean {
 
-                    binding.progressBar.gone()
+                    profileFragmentBinding.progressBar.gone()
                     return false
                 }
 
             })
-            .into(binding.profilePic)
+            .into(profileFragmentBinding.profilePic)
 
     }
 
     private fun setClickListeners() {
 
 
-        binding.editEmailBtn.setOnClickListener {
-            binding.editEmail.visible()
-            binding.email.gone()
-            binding.editEmailBtn.gone()
-            binding.editEmailCloseBtn.visible()
-            binding.editEmailDoneBtn.visible()
+        profileFragmentBinding.editEmailBtn.setOnClickListener {
+            profileFragmentBinding.editEmail.visible()
+            profileFragmentBinding.email.gone()
+            profileFragmentBinding.editEmailBtn.gone()
+            profileFragmentBinding.editEmailCloseBtn.visible()
+            profileFragmentBinding.editEmailDoneBtn.visible()
         }
-        binding.editNameBtn.setOnClickListener {
-            binding.editName.visible()
-            binding.name.gone()
-            binding.editNameBtn.gone()
-            binding.editNameCloseBtn.visible()
-            binding.editNameDoneBtn.visible()
-        }
-        binding.editPassBtn.setOnClickListener {
-            binding.passName.visible()
-            binding.pass.gone()
-            binding.editPassBtn.gone()
-            binding.editPassCloseBtn.visible()
-            binding.editPassDoneBtn.visible()
-        }
-        binding.editPhoneBtn.setOnClickListener {
-            binding.editPhone.visible()
-            binding.phone.gone()
-            binding.editPhoneBtn.gone()
-            binding.editPhoneCloseBtn.visible()
-            binding.editPhoneDoneBtn.visible()
+        profileFragmentBinding.editNameBtn.setOnClickListener {
+            profileFragmentBinding.editName.visible()
+            profileFragmentBinding.name.gone()
+            profileFragmentBinding.editNameBtn.gone()
+            profileFragmentBinding.editNameCloseBtn.visible()
+            profileFragmentBinding.editNameDoneBtn.visible()
         }
 
-        binding.editEmailCloseBtn.setOnClickListener {
-            binding.editEmailBtn.visible()
-            binding.editEmailCloseBtn.gone()
-            binding.editEmailDoneBtn.gone()
-            binding.editEmail.gone()
-            binding.email.visible()
+        profileFragmentBinding.editEmailCloseBtn.setOnClickListener {
+            profileFragmentBinding.editEmailBtn.visible()
+            profileFragmentBinding.editEmailCloseBtn.gone()
+            profileFragmentBinding.editEmailDoneBtn.gone()
+            profileFragmentBinding.editEmail.gone()
+            profileFragmentBinding.email.visible()
         }
-        binding.editPhoneCloseBtn.setOnClickListener {
-            binding.editPhoneBtn.visible()
-            binding.editPhoneCloseBtn.gone()
-            binding.editPhoneDoneBtn.gone()
-            binding.editPhone.gone()
-            binding.phone.visible()
+        profileFragmentBinding.editPhoneCloseBtn.setOnClickListener {
+            profileFragmentBinding.editPhoneBtn.visible()
+            profileFragmentBinding.editPhoneCloseBtn.gone()
+            profileFragmentBinding.editPhoneDoneBtn.gone()
+            profileFragmentBinding.editPhone.gone()
+            profileFragmentBinding.phone.visible()
         }
-        binding.editNameCloseBtn.setOnClickListener {
-            binding.editNameBtn.visible()
-            binding.editNameCloseBtn.gone()
-            binding.editNameDoneBtn.gone()
-            binding.editName.gone()
-            binding.name.visible()
+        profileFragmentBinding.editNameCloseBtn.setOnClickListener {
+            profileFragmentBinding.editNameBtn.visible()
+            profileFragmentBinding.editNameCloseBtn.gone()
+            profileFragmentBinding.editNameDoneBtn.gone()
+            profileFragmentBinding.editName.gone()
+            profileFragmentBinding.name.visible()
         }
-        binding.editPassCloseBtn.setOnClickListener {
-            binding.editPassBtn.visible()
-            binding.editPassCloseBtn.gone()
-            binding.editPassDoneBtn.gone()
-            binding.passName.gone()
-            binding.pass.visible()
-        }
-        binding.editEmailDoneBtn.setOnClickListener {
-            binding.editEmailBtn.visible()
-            binding.editEmailCloseBtn.gone()
-            binding.editEmailDoneBtn.gone()
-            binding.editEmail.gone()
-            binding.email.visible()
-            if (validateEditText(binding.editEmail)) {
-                upDateUserInfo(USER_EMAIL, binding.editEmail.text.toString())
+        profileFragmentBinding.editEmailDoneBtn.setOnClickListener {
+            profileFragmentBinding.editEmailBtn.visible()
+            profileFragmentBinding.editEmailCloseBtn.gone()
+            profileFragmentBinding.editEmailDoneBtn.gone()
+            profileFragmentBinding.editEmail.gone()
+            profileFragmentBinding.email.visible()
+            if (validateEditText(profileFragmentBinding.editEmail)) {
+                upDateUserInfo(USER_EMAIL, profileFragmentBinding.editEmail.text.toString())
             }
 
         }
-        binding.editPhoneDoneBtn.setOnClickListener {
-            binding.editPhoneBtn.visible()
-            binding.editPhoneCloseBtn.gone()
-            binding.editPhoneDoneBtn.gone()
-            binding.editPhone.gone()
-            binding.phone.visible()
-            if (validateEditText(binding.editPhone)) {
-                upDateUserInfo(USER_PHONE_NUMBER, binding.editPhone.text.toString())
-            }
-
-        }
-        binding.editNameDoneBtn.setOnClickListener {
-            binding.editNameBtn.visible()
-            binding.editNameCloseBtn.gone()
-            binding.editNameDoneBtn.gone()
-            binding.editName.gone()
-            binding.name.visible()
-            if (validateEditText(binding.editName)) {
-                upDateUserInfo(USERNAME, binding.editName.text.toString())
-            }
-        }
-        binding.editPassDoneBtn.setOnClickListener {
-            binding.editPassBtn.visible()
-            binding.editPassCloseBtn.gone()
-            binding.editPassDoneBtn.gone()
-            binding.passName.gone()
-            binding.pass.visible()
-            if (validateEditText(binding.passName)) {
-                upDateUserInfo(USER_PASS, binding.passName.text.toString())
+        profileFragmentBinding.editNameDoneBtn.setOnClickListener {
+            profileFragmentBinding.editNameBtn.visible()
+            profileFragmentBinding.editNameCloseBtn.gone()
+            profileFragmentBinding.editNameDoneBtn.gone()
+            profileFragmentBinding.editName.gone()
+            profileFragmentBinding.name.visible()
+            if (validateEditText(profileFragmentBinding.editName)) {
+                upDateUserInfo(USERNAME, profileFragmentBinding.editName.text.toString())
             }
         }
 
-        binding.profilePic.setOnClickListener {
+        profileFragmentBinding.profilePic.setOnClickListener {
             selectImageFromGallery()
         }
 
@@ -230,12 +206,12 @@ class ProfileFragment : Fragment() {
         viewModel.updateLiveData.observe(viewLifecycleOwner, { updateStatus ->
             when (updateStatus) {
                 is ResponseState.Success -> {
-                    updateStatus.data?.let { binding.root.snackbar(it) }
+                    updateStatus.data?.let { profileFragmentBinding.root.snackbar(it) }
                     getData()
                     dismissDialog()
                 }
                 is ResponseState.Error -> {
-                    updateStatus.message?.let { binding.root.snackbar(it) }
+                    updateStatus.message?.let { profileFragmentBinding.root.snackbar(it) }
                     dismissDialog()
                 }
                 is ResponseState.Loading -> {
@@ -246,7 +222,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getData() {
-        binding.progressBar.visible()
+        profileFragmentBinding.progressBar.visible()
 
         user?.uid?.let { viewModel.getUserFromDataBase(it) }
         viewModel.userLiveData.observe(viewLifecycleOwner, { userStatus ->
@@ -254,15 +230,15 @@ class ProfileFragment : Fragment() {
                 is ResponseState.Success -> {
                     user = userStatus.data
                     updateUi()
-                    binding.progressBar.gone()
+                    profileFragmentBinding.progressBar.gone()
                 }
                 is ResponseState.Loading -> {
 
                 }
                 is ResponseState.Error -> {
 
-                    userStatus.message?.let { binding.root.snackbar(it) }
-                    binding.progressBar.gone()
+                    userStatus.message?.let {profileFragmentBinding.root.snackbar(it) }
+                    profileFragmentBinding.progressBar.gone()
                 }
             }
 
@@ -272,10 +248,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateUi() {
-        binding.name.text = user?.name
-        binding.username.text = user?.name
-        binding.phone.text = user?.phoneNumber
-        binding.email.text = user?.email
+        profileFragmentBinding.name.text = user?.name
+        profileFragmentBinding.username.text = user?.name
+        profileFragmentBinding.phone.text = user?.phoneNumber
+        profileFragmentBinding.email.text = user?.email
     }
 
     private fun validateEditText(editText: EditText): Boolean {
@@ -420,20 +396,20 @@ class ProfileFragment : Fragment() {
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-
-            R.id.action_logout -> {
-                (activity as MainActivity).firebaseAuth.signOut()
-                findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
-                true
-            }
-            else -> {
-                false
-            }
-        }
-    }
-
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//
+//            R.id.action_logout -> {
+//                (activity as MainActivity).firebaseAuth.signOut()
+//                findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+//                true
+//            }
+//            else -> {
+//                false
+//            }
+//        }
+//    }
+//
 
 
 

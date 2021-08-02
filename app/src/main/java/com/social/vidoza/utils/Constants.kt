@@ -7,6 +7,8 @@ object Constants {
     const val NIGHT_MODE_ENABLED = "NIGHT_MODE_ENABLED"
     const val APP_THEME = "APP_THEME"
 
+    const val BACKGROUND_IMAGE= "BACKGROUND_IMAGE"
+
     const val CHANNEL_ID = "CHANNEL_ID"
     const val CHANNEL_DESC = "CHANNEL_DESC"
     const val CHANNEL_NAME = "CHANNEL_NAME"

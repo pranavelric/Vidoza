@@ -8,6 +8,7 @@ data class User(
     val email: String?,
     val phoneNumber: String?,
     var imageUrl: String?,
+    var fcm_token:String?="",
     var isNew:Boolean?=true
 
     ) : Serializable {

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/limit_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:elevation="@dimen/_4sdp"
+    android:focusable="true"
+    app:cardCornerRadius="@dimen/_4sdp"
+    app:rippleColor="@color/primary_color"
+    android:layout_margin="@dimen/_8sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+app:cardBackgroundColor="@color/primary_color"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_16sdp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/total_br_limit_title"
+            android:text="ID: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+
+            />
+
+
+<TextView
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/user_id"
+    android:text=""
+   app:layout_constraintStart_toEndOf="@id/total_br_limit_title"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:lineHeight="@dimen/_15sdp"
+    app:layout_constraintTop_toTopOf="parent"
+    android:textSize="14sp"
+    android:textStyle="bold"
+    android:textColor="@color/white"
+    />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/alloted_br_limit_title"
+            android:text="Coins: "
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@id/total_br_limit_title"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/_22sdp"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_coins_amount"
+            android:text="0"
+           app:layout_constraintStart_toEndOf="@id/alloted_br_limit_title"
+          app:layout_constraintTop_toTopOf="@id/alloted_br_limit_title"
+          app:layout_constraintBottom_toBottomOf="@id/alloted_br_limit_title"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/yellow"
+            />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/user_coins_amount"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:text="(Reward: 1 coin = 1 Rupees)"
+            android:gravity="center"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</com.google.android.material.card.MaterialCardView>
