@@ -1,13 +1,19 @@
 package com.social.vidoza.ui.outgoingMeeting
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -66,6 +72,13 @@ class SendingMeetingFragment : Fragment() {
                 token.addOnCompleteListener {
                     if (it.isSuccessful) {
                         inviterToken = it.result
+
+                        if (call_type != null && currentUser != null && user != null) {
+                            user!!.fcm_token?.let { initiateMeeting(call_type!!, it) }
+                        }
+
+                    } else {
+                        it.exception?.message?.let { it1 -> context?.toast(it1) }
                     }
                 }.await()
 
@@ -93,9 +106,7 @@ class SendingMeetingFragment : Fragment() {
 
         sendingMeetingFragmentBinding.expandedImage.getBackgroundImage(Uri.parse((activity as MainActivity).sharedPrefrences.getBrackgroundImage()))
 
-        if(call_type!=null && currentUser!=null && user!=null){
-            user!!.fcm_token?.let { initiateMeeting(call_type!!, it) }
-        }
+
 
         setData()
         setCliclListeners()
@@ -105,11 +116,19 @@ class SendingMeetingFragment : Fragment() {
 
         sendingMeetingFragmentBinding.cancelBtnCard.setOnClickListener {
 
-            findNavController().navigateUp()
+            //  findNavController().navigateUp()
+
+            if (user != null) {
+                user!!.fcm_token?.let { it1 -> cancelInvitation(it1) }
+            }
+
 
         }
         sendingMeetingFragmentBinding.cancleBtn.setOnClickListener {
-            findNavController().navigateUp()
+            // findNavController().navigateUp()
+            if (user != null) {
+                user!!.fcm_token?.let { it1 -> cancelInvitation(it1) }
+            }
         }
 
 
@@ -176,15 +195,15 @@ class SendingMeetingFragment : Fragment() {
             body.put(Constants.REMOTE_MSG_MEETING_TYPE, meetingType)
             body.put(Constants.USERNAME, currentUser?.name)
             body.put(Constants.USER_EMAIL, currentUser?.email)
-            body.put(Constants.USER_IMAGE_URL,currentUser?.imageUrl)
+            body.put(Constants.USER_IMAGE_URL, currentUser?.imageUrl)
             body.put(Constants.USER_PHONE_NUMBER, currentUser?.phoneNumber)
             body.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken)
 
             var dataBody = JSONObject()
-            dataBody.put(Constants.REMOTE_MSG_DATA,body)
-            dataBody.put(Constants.REMOTE_MSG_REGISTRATION_IDS,token)
+            dataBody.put(Constants.REMOTE_MSG_DATA, body)
+            dataBody.put(Constants.REMOTE_MSG_REGISTRATION_IDS, token)
 
-            sendRemoteMessage(dataBody.toString(),Constants.REMOTE_MSG_INVITATION)
+            sendRemoteMessage(dataBody.toString(), Constants.REMOTE_MSG_INVITATION)
 
         } catch (e: Exception) {
             e.message?.let { context?.toast(it) }
@@ -204,7 +223,12 @@ class SendingMeetingFragment : Fragment() {
 
                     if (type.equals(Constants.REMOTE_MSG_INVITATION)) {
                         context?.toast("Invitation send successfully")
+                    } else if (type.equals(Constants.REMOTE_MSG_INVITATION_RESPONSE)) {
+
+                        context?.toast("Invitation Canceled")
+                        findNavController().navigateUp()
                     }
+
 
                 } else {
                     context?.toast(response.message())
@@ -222,9 +246,83 @@ class SendingMeetingFragment : Fragment() {
 
     }
 
+
+    private fun cancelInvitation(receiverToken: String) {
+
+        try {
+
+            val tokens = JSONArray()
+            tokens.put(receiverToken)
+
+            val body = JSONObject()
+            val data = JSONObject()
+
+            data.put(Constants.REMOTE_MSG_TYPE, Constants.REMOTE_MSG_INVITATION_RESPONSE)
+            data.put(
+                Constants.REMOTE_MSG_INVITATION_RESPONSE,
+                Constants.REMOTE_MSG_INVITATION_CANCELED
+            )
+
+            body.put(Constants.REMOTE_MSG_DATA, data)
+            body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens)
+
+            sendRemoteMessage(body.toString(), Constants.REMOTE_MSG_INVITATION_RESPONSE)
+
+
+        } catch (e: Exception) {
+
+            e.message?.let { context?.toast(it) }
+            findNavController().navigateUp()
+
+
+        }
+
+
+    }
+
+
+    private val invitationResponseReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+            Log.d("RRR", "onReceive: broadcast")
+            val type = intent?.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE)
+            if (type != null) {
+
+                if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
+
+                    context?.toast("Invitation accepted")
+
+                } else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
+                    context?.toast("Invitation rejected")
+                    findNavController().navigateUp()
+                }
+
+            }
+
+        }
+
+    }
+
+
     override fun onStart() {
         super.onStart()
+        context?.applicationContext?.let {
+            LocalBroadcastManager.getInstance(it).registerReceiver(
+                invitationResponseReceiver,
+                IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE)
+            )
+        }
         (activity as MainActivity).setFullScreen()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+
+        context?.applicationContext?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(invitationResponseReceiver)
+        }
 
     }
 

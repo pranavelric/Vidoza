@@ -2,12 +2,18 @@ package com.social.vidoza.ui.activity
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -133,11 +139,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onStart() {
-        super.onStart()
-        setFullScreenForNotch()
-        setFullScreenWithBtmNav()
-    }
+
 
     private fun hideNetworkDialog() {
         if (this::dialog.isInitialized)
@@ -203,7 +205,53 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(invitationResponseReceiver)
 
+    }
+
+
+
+
+    private val invitationResponseReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+            Log.d("RRR", "onReceive: broadcastmain")
+            val type = intent?.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE)
+            if (type != null) {
+
+                if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
+
+                    context?.toast("Invitation accepted")
+
+                } else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
+                    context?.toast("Invitation rejected")
+
+                    navController.navigateUp()
+
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+            LocalBroadcastManager.getInstance(applicationContext).registerReceiver(
+                invitationResponseReceiver,
+                IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE)
+            )
+
+
+        setFullScreenForNotch()
+        setFullScreenWithBtmNav()
+    }
 
 
 

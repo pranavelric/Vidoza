@@ -45,6 +45,14 @@ object Constants {
     const val REMOTE_MSG_REGISTRATION_IDS = "registration_ids"
 
 
+    const val REMOTE_MSG_INVITATION_RESPONSE= "invitationResponse"
+    const val REMOTE_MSG_INVITATION_ACCEPTED = "accepted"
+    const val REMOTE_MSG_INVITATION_REJECTED = "rejected"
+
+    const val REMOTE_MSG_INVITATION_CANCELED= "cancelled"
+
+
+
     fun getHeaders(): HashMap<String, String> {
         val headers: HashMap<String, String> = HashMap()
         headers.put(
