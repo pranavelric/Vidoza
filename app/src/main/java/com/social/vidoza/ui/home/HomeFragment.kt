@@ -18,6 +18,7 @@ import com.social.vidoza.databinding.HomeFragmentBinding
 import com.social.vidoza.ui.activity.MainActivity
 import com.social.vidoza.utils.*
 import com.social.vidoza.utils.Constants.CALL_TYPE
+import com.social.vidoza.utils.Constants.CURRENT_USER
 import com.social.vidoza.utils.Constants.USERS_BUNDLE_OBJ
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -210,13 +211,14 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun startVideoMeeting(user: User?, i: Int) {
-        if (user != null || !user?.fcm_token.isNullOrBlank()) {
+    private fun startVideoMeeting(userr: User?, i: Int) {
+        if (userr == null || userr?.fcm_token.isNullOrBlank()) {
             homeFragmentBinding.root.snackbar("User is not available for meeting")
         } else {
 
             val bundle = Bundle().apply {
-                putSerializable(USERS_BUNDLE_OBJ, user)
+                putSerializable(USERS_BUNDLE_OBJ, userr)
+                putSerializable(CURRENT_USER, user)
                 putString(CALL_TYPE, "video")
 
 
@@ -234,7 +236,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun startCallMeeting(user: User?, pos: Int) {
-        if (user != null || !user?.fcm_token.isNullOrBlank()) {
+        if (user == null || user?.fcm_token.isNullOrBlank()) {
             homeFragmentBinding.root.snackbar("User is not available for meeting")
         } else {
 

@@ -1,6 +1,5 @@
 package com.social.vidoza.data.repository
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.gaming.earningvalleyadmin.utils.ResponseState
 import com.google.android.gms.tasks.Task
@@ -10,7 +9,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.social.vidoza.data.model.User
 import com.social.vidoza.utils.Constants
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -134,7 +132,7 @@ class HomeRepository @Inject constructor() {
 
                     } else {
                         gameMutableLiveData.value =
-                            ResponseState.Error("No registered games found")
+                            ResponseState.Error("No registered users found")
                     }
                 } else {
                     gameMutableLiveData.value = task.exception!!.message?.let {

@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/expandedImage"
+        android:scaleType="centerCrop"
+        />
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/call_meeting_gradient"
-    android:padding="@dimen/_10sdp"
-    tools:context=".ui.incomingMeeting.InComingMeetingFragment">
+    android:fitsSystemWindows="true"
+    tools:context=".ui.incomingMeeting.IncomingMeetingActivity">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,6 +31,16 @@
         android:padding="@dimen/_10sdp"
         android:orientation="vertical">
 
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:id="@+id/call_type"
+            android:src="@drawable/ic_baseline_videocam_24"
+            android:layout_gravity="center"
+            app:tint="@color/white"
+            android:layout_marginTop="@dimen/_22sdp"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -78,6 +104,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/ic_baseline_call_24"
             android:layout_margin="@dimen/_10sdp"
+            android:id="@+id/accept_btn"
             app:backgroundTint="@color/white"
             />
 
@@ -103,6 +130,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/ic_baseline_call_end_24"
             android:layout_margin="@dimen/_10sdp"
+            android:id="@+id/cancel_btn"
             app:backgroundTint="@color/white"
             />
 
@@ -115,4 +143,4 @@
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout></FrameLayout>
