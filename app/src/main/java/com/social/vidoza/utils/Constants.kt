@@ -20,6 +20,8 @@ object Constants {
     // refrences name
     const val USERS = "USERS"
     const val USERS_BUNDLE_OBJ = "USER_BUNDLE_OBJ"
+    const val CALL_TYPE = "CALL_TYPE"
+
 
     //Users Info
     const val USERNAME = "USERNAME"

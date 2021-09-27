@@ -60,7 +60,14 @@ class ProfileRepository  @Inject constructor() {
             }
 
         }.await()
-        return uploadStatusLiveData
+
+
+      if (uploadStatusLiveData.value !is ResponseState.Error) {
+          uploadStatusLiveData.value = ResponseState.Success("Image uploaded successfully")
+      }
+
+
+      return uploadStatusLiveData
 
     }
 

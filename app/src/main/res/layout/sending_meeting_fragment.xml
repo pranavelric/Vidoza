@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/expandedImage"
+        android:scaleType="centerCrop"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/call_meeting_gradient"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.outgoingMeeting.SendingMeetingFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:id="@+id/call_type"
+                android:src="@drawable/ic_baseline_videocam_24"
+                android:layout_gravity="center"
+                app:tint="@color/white"
+                android:layout_marginTop="@dimen/_22sdp"
+                />
+
+
+            <TextView
+                android:id="@+id/outgoing_call_heading"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Sending meeting invitation"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_110sdp"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="@dimen/_26sdp"
+                android:src="@drawable/ic_baseline_person_24"
+                android:tint="@color/primary_color"
+                app:civ_border_color="@color/primary_color"
+                app:civ_border_width="@dimen/_2sdp"
+
+
+                app:civ_shadow="true"
+                app:civ_shadow_color="@color/primary_color"
+                app:civ_shadow_radius="5dp" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_45sdp"
+                android:text="User Name"
+
+                android:textAlignment="center"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/_26sdp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cancel_btn_card"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginBottom="@dimen/_60sdp"
+            app:cardBackgroundColor="@color/red"
+            app:cardCornerRadius="@dimen/_511sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancle_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/ic_baseline_call_end_24"
+                app:backgroundTint="@color/white" />
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="@dimen/_66sdp"
+            android:layout_height="@dimen/_66sdp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_36sdp"
+            android:elevation="@dimen/_16sdp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/primary_color"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

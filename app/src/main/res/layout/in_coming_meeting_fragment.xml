@@ -3,8 +3,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/call_meeting_gradient"
+    android:padding="@dimen/_10sdp"
     tools:context=".ui.incomingMeeting.InComingMeetingFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="@dimen/_10sdp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/incoming_call_heading"
+            android:text="Incoming meeting call"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="@dimen/_26sdp"
+            android:src="@drawable/ic_baseline_person_24"
+            app:civ_border_color="@color/primary_color"
+            app:civ_border_width="@dimen/_2sdp"
+            app:civ_shadow="true"
+
+
+            android:tint="@color/primary_color"
+            app:civ_shadow_color="@color/primary_color"
+            app:civ_shadow_radius="5dp" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_45sdp"
+            android:text="User Name"
+
+            android:textAlignment="center"
+            android:textColor="@color/heading_text"
+            android:textSize="@dimen/_26sdp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/_60sdp"
+
+        android:id="@+id/accept_btn_card"
+        app:cardBackgroundColor="@color/green"
+        app:cardCornerRadius="@dimen/_511sdp"
+        app:layout_constraintEnd_toStartOf="@id/cancel_btn_card"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_baseline_call_24"
+            android:layout_margin="@dimen/_10sdp"
+            app:backgroundTint="@color/white"
+            />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/_60sdp"
+
+        android:id="@+id/cancel_btn_card"
+        app:cardBackgroundColor="@color/red"
+        app:layout_constraintStart_toEndOf="@id/accept_btn_card"
+        app:cardCornerRadius="@dimen/_511sdp"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_baseline_call_end_24"
+            android:layout_margin="@dimen/_10sdp"
+            app:backgroundTint="@color/white"
+            />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
 
 
 

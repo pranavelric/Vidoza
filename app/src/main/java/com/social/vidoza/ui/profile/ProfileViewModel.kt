@@ -27,7 +27,7 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
 
 
     fun uploadImageInFirebaseStorage(uid: String, uri: Uri)=viewModelScope.launch {
-        _uploadLiveData = profileRepository.uploadImageToFirebaseStorage(uid, uri)
+        _uploadLiveData.postValue(profileRepository.uploadImageToFirebaseStorage(uid, uri).value)
     }
 
     fun updateUserInfo(updateType: String, updateValue: String) =viewModelScope.launch{

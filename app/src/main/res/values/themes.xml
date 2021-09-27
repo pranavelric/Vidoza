@@ -35,6 +35,15 @@
 
     </style>
 
+    <style name="circleImageView" parent="">
+
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">@dimen/_118sdp</item>
+        <item name="cornerSizeTopLeft">@dimen/_118sdp</item>
+        <item name="cornerSizeTopRight">@dimen/_118sdp</item>
+        <item name="cornerSizeBottomRight">@dimen/_118sdp</item>
+
+    </style>
 
 
 

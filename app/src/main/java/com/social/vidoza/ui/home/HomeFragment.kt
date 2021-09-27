@@ -17,6 +17,7 @@ import com.social.vidoza.data.model.User
 import com.social.vidoza.databinding.HomeFragmentBinding
 import com.social.vidoza.ui.activity.MainActivity
 import com.social.vidoza.utils.*
+import com.social.vidoza.utils.Constants.CALL_TYPE
 import com.social.vidoza.utils.Constants.USERS_BUNDLE_OBJ
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -91,7 +92,8 @@ class HomeFragment : Fragment() {
 
         viewModel.userListLiveData.observe(viewLifecycleOwner, {
             when (it) {
-                is ResponseState.Success -> {       homeFragmentBinding.refresh.isRefreshing = false
+                is ResponseState.Success -> {
+                    homeFragmentBinding.refresh.isRefreshing = false
 
                     homeFragmentBinding.progressBar.gone()
 
@@ -213,7 +215,22 @@ class HomeFragment : Fragment() {
             homeFragmentBinding.root.snackbar("User is not available for meeting")
         } else {
 
+            val bundle = Bundle().apply {
+                putSerializable(USERS_BUNDLE_OBJ, user)
+                putString(CALL_TYPE, "video")
+
+
+            }
+
+            findNavController().navigate(
+                R.id.action_homeFragment_to_sendingMeetingFragment,
+                bundle
+            )
+
+
         }
+
+
     }
 
     private fun startCallMeeting(user: User?, pos: Int) {

@@ -41,6 +41,15 @@
 
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            android:id="@+id/action_homeFragment_to_sendingMeetingFragment"
+            app:destination="@id/sendingMeetingFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -118,4 +127,9 @@
         android:name="com.social.vidoza.ui.settings.SettingsFragment"
         android:label="settings_fragment"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/sendingMeetingFragment"
+        android:name="com.social.vidoza.ui.outgoingMeeting.SendingMeetingFragment"
+        android:label="sending_meeting_fragment"
+        tools:layout="@layout/sending_meeting_fragment" />
 </navigation>
