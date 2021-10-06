@@ -46,7 +46,13 @@ class MessagingService : FirebaseMessagingService() {
                         Constants.REMOTE_MSG_INVITER_TOKEN,
                         remoteMessage.data.get(Constants.REMOTE_MSG_INVITER_TOKEN)
                     )
+                    it.putExtra(
+                        Constants.REMOTE_MSG_MEETING_ROOM,
+                        remoteMessage.data.get(Constants.REMOTE_MSG_MEETING_ROOM)
+                    )
+
                     startActivity(it, transitionAnimationBundle())
+
                 }
 
             } else if (type.equals(Constants.REMOTE_MSG_INVITATION_RESPONSE)) {

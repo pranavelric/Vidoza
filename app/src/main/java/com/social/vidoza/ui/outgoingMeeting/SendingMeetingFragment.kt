@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +31,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import org.jitsi.meet.sdk.JitsiMeetActivity
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URL
+import java.util.*
 import javax.inject.Inject
 
 
@@ -53,6 +56,8 @@ class SendingMeetingFragment : Fragment() {
 
     private var call_type: String? = null
     private var inviterToken: String? = null
+    private var meetingRoom: String? = null
+    private var meetingType: String? = null
 
     @Inject
     lateinit var apiService: ApiService
@@ -65,6 +70,9 @@ class SendingMeetingFragment : Fragment() {
             currentUser = it.getSerializable(Constants.CURRENT_USER) as User?
             call_type = it.getString(Constants.CALL_TYPE)
         }
+
+        meetingType = call_type
+
 
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -199,6 +207,10 @@ class SendingMeetingFragment : Fragment() {
             body.put(Constants.USER_PHONE_NUMBER, currentUser?.phoneNumber)
             body.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken)
 
+            meetingRoom = currentUser?.uid + UUID.randomUUID().toString().substring(0, 5)
+
+            body.put(Constants.REMOTE_MSG_MEETING_ROOM, meetingRoom)
+
             var dataBody = JSONObject()
             dataBody.put(Constants.REMOTE_MSG_DATA, body)
             dataBody.put(Constants.REMOTE_MSG_REGISTRATION_IDS, token)
@@ -284,13 +296,41 @@ class SendingMeetingFragment : Fragment() {
     private val invitationResponseReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
-            Log.d("RRR", "onReceive: broadcast")
+
             val type = intent?.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE)
             if (type != null) {
 
                 if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
 
-                    context?.toast("Invitation accepted")
+
+                    try {
+                        var serverUrl = URL("https://meet.jit.si")
+
+
+                        val optionsBuilder: JitsiMeetConferenceOptions.Builder =
+                            JitsiMeetConferenceOptions.Builder()
+                                .setServerURL(serverUrl)
+                                .setRoom(meetingRoom)
+
+                                .setWelcomePageEnabled(false)
+                                .setConfigOverride("requireDisplayName", false)
+
+                        if(meetingType.equals("audio")){
+                            optionsBuilder.setAudioOnly(true)
+                        }
+
+                        JitsiMeetActivity.launch(context, optionsBuilder.build())
+
+                        findNavController().navigateUp()
+
+
+                    } catch (e: Exception) {
+
+                        e.message?.let { context?.toast(it) }
+
+                        findNavController().navigateUp()
+                    }
+
 
                 } else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
                     context?.toast("Invitation rejected")

@@ -235,10 +235,27 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun startCallMeeting(user: User?, pos: Int) {
+    private fun startCallMeeting(userr: User?, pos: Int) {
         if (user == null || user?.fcm_token.isNullOrBlank()) {
             homeFragmentBinding.root.snackbar("User is not available for meeting")
         } else {
+
+
+            val bundle = Bundle().apply {
+                putSerializable(USERS_BUNDLE_OBJ, userr)
+                putSerializable(CURRENT_USER, user)
+                putString(CALL_TYPE, "audio")
+
+
+            }
+
+            findNavController().navigate(
+                R.id.action_homeFragment_to_sendingMeetingFragment,
+                bundle
+            )
+
+
+
 
         }
     }

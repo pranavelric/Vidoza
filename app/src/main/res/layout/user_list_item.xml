@@ -8,11 +8,13 @@
     android:layout_marginBottom="@dimen/_10sdp"
 android:padding="@dimen/_5sdp"
     android:id="@+id/root_lay"
-
+android:animateLayoutChanges="true"
     android:layout_marginEnd="1dp"
     android:orientation="horizontal">
 
-
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profile_pic"
         android:layout_width="@dimen/_50sdp"
@@ -25,6 +27,16 @@ android:padding="@dimen/_5sdp"
         android:tint="@color/primary_color"
         app:civ_shadow_color="@color/primary_color"
         app:civ_shadow_radius="2dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageSelected"
+        android:src="@drawable/ic_baseline_check_circle_24"
+        android:layout_gravity="center"
+        android:visibility="gone"
+/>
+</FrameLayout>
 
 
 

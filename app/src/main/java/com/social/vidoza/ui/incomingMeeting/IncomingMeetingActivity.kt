@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -21,11 +20,14 @@ import com.social.vidoza.ui.activity.MainActivity
 import com.social.vidoza.utils.*
 import com.thecode.aestheticdialogs.*
 import dagger.hilt.android.AndroidEntryPoint
+import org.jitsi.meet.sdk.JitsiMeetActivity
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URL
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,6 +37,7 @@ class IncomingMeetingActivity : AppCompatActivity() {
     val mainViewModel: InComingMeetingViewModel by lazy {
         ViewModelProvider(this)[InComingMeetingViewModel::class.java]
     }
+    private var meetingCallType:String?=null
 
     @Inject
     lateinit var networkConnection: NetworkConnection
@@ -141,7 +144,7 @@ class IncomingMeetingActivity : AppCompatActivity() {
     private fun setData() {
 
         var meetingType = intent.getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE)
-
+        meetingCallType = meetingType
         if (meetingType != null) {
             if (meetingType.equals("video")) {
                 binding.callType.setImageResource(R.drawable.ic_baseline_videocam_24)
@@ -233,9 +236,49 @@ class IncomingMeetingActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
 
                     if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
-                        toast("Invitation Accepted")
+
+                        try {
+                            var serverUrl = URL("https://meet.jit.si")
+
+//
+//                            val options: JitsiMeetConferenceOptions =
+//                                JitsiMeetConferenceOptions.Builder()
+//                                    .setServerURL(serverUrl)
+//                                    .setRoom(intent.getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM))
+//                                    .setAudioMuted(false)
+//                                    .setVideoMuted(false)
+//                                    .setAudioOnly(false)
+//                                    .setWelcomePageEnabled(false)
+//                                    .setConfigOverride("requireDisplayName", false)
+//                                    .build()
+//
+
+                            val optionsBuilder: JitsiMeetConferenceOptions.Builder =
+                                JitsiMeetConferenceOptions.Builder()
+                                    .setServerURL(serverUrl)
+                                    .setRoom(intent.getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM))
+
+                                    .setWelcomePageEnabled(false)
+                                    .setConfigOverride("requireDisplayName", false)
+
+                            if(meetingCallType.equals("audio")){
+                                optionsBuilder.setAudioOnly(true)
+                            }
+
+
+                            JitsiMeetActivity.launch(this@IncomingMeetingActivity, optionsBuilder.build())
+                            finish()
+
+                        } catch (e: Exception) {
+
+                            e.message?.let { toast(it) }
+                            finish()
+                        }
+
+
                     } else {
                         toast("Invitation Rejected")
+                        finish()
                     }
 
                 } else {
@@ -270,7 +313,7 @@ class IncomingMeetingActivity : AppCompatActivity() {
     private val invitationResponseReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
-            Log.d("RRR", "onReceive: broadcastr ")
+
 
             val type = intent?.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE)
             if (type != null) {

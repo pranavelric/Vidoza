@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.social.vidoza"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -138,7 +138,7 @@ dependencies {
 
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
+    implementation ('org.jitsi.react:jitsi-meet-sdk:3.8.0') { transitive = true }
 
 
 }

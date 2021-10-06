@@ -51,6 +51,7 @@ object Constants {
 
     const val REMOTE_MSG_INVITATION_CANCELED= "cancelled"
 
+    const val REMOTE_MSG_MEETING_ROOM = "meetingRoom"
 
 
     fun getHeaders(): HashMap<String, String> {

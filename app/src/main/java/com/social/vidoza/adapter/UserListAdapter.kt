@@ -16,6 +16,8 @@ class UserListAdapter :
 
     lateinit var context: Context
 
+    private var selectedUser = ArrayList<User>()
+
     inner class UserListViewHolder(private val binding: UserListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -45,6 +47,8 @@ class UserListAdapter :
 
                 }
             }
+
+
 
 
         }
@@ -106,6 +110,8 @@ class UserListAdapter :
     fun setOnVideoItemClickListener(listener: (User?, Int) -> Unit) {
         onVideoItemClickListener = listener
     }
+
+
 
 
 }
