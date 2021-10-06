@@ -236,7 +236,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun startCallMeeting(userr: User?, pos: Int) {
-        if (user == null || user?.fcm_token.isNullOrBlank()) {
+        if (userr == null || userr?.fcm_token.isNullOrBlank()) {
             homeFragmentBinding.root.snackbar("User is not available for meeting")
         } else {
 

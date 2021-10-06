@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@drawable/smiley_error" />
+            android:src="@drawable/bg" />
 
         <View
             android:id="@+id/tempView"
@@ -408,7 +408,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:src="@drawable/smiley_success" />
+                    android:src="@drawable/ic_online_ads_pana" />
 
             </LinearLayout>
 

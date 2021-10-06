@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:id="@+id/expandedImage"
         android:scaleType="centerCrop"
+        android:src="@drawable/bg"
         />
 
 

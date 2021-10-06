@@ -40,7 +40,7 @@ fun ImageView.getBackgroundImage(backgroundUrl: Uri?) {
                 Glide.with(it)
                     .load(  AppCompatResources.getDrawable(
                         it,
-                        R.drawable.background_emotion_error
+                        R.drawable.bg
                     )).into(this)
             }
         }

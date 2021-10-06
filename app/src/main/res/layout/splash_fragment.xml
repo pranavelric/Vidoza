@@ -12,7 +12,7 @@
         android:id="@+id/splash_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/smiley_success"
+        android:src="@drawable/ic_video_call_rafiki"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
