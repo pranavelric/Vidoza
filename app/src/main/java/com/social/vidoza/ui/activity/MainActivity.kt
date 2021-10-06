@@ -2,14 +2,15 @@ package com.social.vidoza.ui.activity
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -53,8 +54,10 @@ class MainActivity : AppCompatActivity() {
 
 
     private val permList: Array<String> = arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+
     companion object {
         private const val PERMISSION_CODE = 121
+        private const val REQUEST_BATTERY_OPTIMIZATION_CODE = 1
     }
 
 
@@ -93,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             checkForUpdates()
 
         observeData()
+        checkForBatteryOptimizations()
 
 
     }
@@ -139,8 +143,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun hideNetworkDialog() {
         if (this::dialog.isInitialized)
             dialog.dismiss()
@@ -149,20 +151,19 @@ class MainActivity : AppCompatActivity() {
     private fun showNetworkDialog() {
 
 
-     dialog =    AestheticDialog.Builder(this, DialogStyle.EMOTION,   DialogType.ERROR)
+        dialog = AestheticDialog.Builder(this, DialogStyle.EMOTION, DialogType.ERROR)
             .setTitle("No internet")
             .setMessage("Please check your internet connection")
             .setCancelable(false)
             .setDarkMode(false)
             .setGravity(Gravity.CENTER)
-            .setAnimation( DialogAnimation.SHRINK)
+            .setAnimation(DialogAnimation.SHRINK)
             .setOnClickListener(object : OnDialogClickListener {
                 override fun onClick(dialog: AestheticDialog.Builder) {
                     dialog.dismiss()
                 }
             })
-          dialog.show()
-
+        dialog.show()
 
 
     }
@@ -207,11 +208,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(invitationResponseReceiver)
+        LocalBroadcastManager.getInstance(applicationContext)
+            .unregisterReceiver(invitationResponseReceiver)
 
     }
-
-
 
 
     private val invitationResponseReceiver = object : BroadcastReceiver() {
@@ -243,10 +243,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-            LocalBroadcastManager.getInstance(applicationContext).registerReceiver(
-                invitationResponseReceiver,
-                IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE)
-            )
+        LocalBroadcastManager.getInstance(applicationContext).registerReceiver(
+            invitationResponseReceiver,
+            IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE)
+        )
 
 
         setFullScreenForNotch()
@@ -254,11 +254,44 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun checkForBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            var powerManager = getSystemService(POWER_SERVICE) as PowerManager
+            if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+                var builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle("Warning")
+                builder.setMessage("Battery optimization is enabled, It can interrupt running  background services.")
+                builder.setPositiveButton("Disable", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                        startActivityForResult(intent, REQUEST_BATTERY_OPTIMIZATION_CODE)
+                    }
+
+                })
+
+                builder.setNegativeButton("cancel", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        dialog?.dismiss()
+                    }
+
+                })
+
+                builder.create().show()
+
+            }
 
 
+        }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode== REQUEST_BATTERY_OPTIMIZATION_CODE){
+            checkForBatteryOptimizations()
+        }
 
-
+    }
 
 
 }
