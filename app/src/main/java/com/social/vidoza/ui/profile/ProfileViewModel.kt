@@ -33,10 +33,10 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     fun updateUserInfo(updateType: String, updateValue: String) =viewModelScope.launch{
         when (updateType) {
             Constants.USERNAME -> {
-                _updateLiveData = profileRepository.updateUserUserName(updateValue)
+                _updateLiveData.postValue(profileRepository.updateUserUserName(updateValue).value)
             }
             Constants.USER_EMAIL -> {
-                _updateLiveData = profileRepository.updateUserEmail(updateValue)
+                _updateLiveData.postValue(profileRepository.updateUserEmail(updateValue).value)
             }
 
             else -> {
